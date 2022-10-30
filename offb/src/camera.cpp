@@ -30,8 +30,14 @@ int main(int argc, char** argv)
     image_transport::ImageTransport it(nh);
     image_transport::Publisher pub = it.advertise("/ardusub/image", 1);
 
-    cv::VideoCapture capture(0);
- 
+
+    std::cout << "before cv::VideoCapture capture without gst-launch-1.0" << std::endl;
+    // cv::VideoCapture capture("udpsrc port=5600 ! application/x-rtp media=video payload=26 clock-rate=90000 encoding-name=JPEG framerate=15/1 ! rtpjpegdepay ! jpegdec ! videoconvert ! appsink", cv::CAP_GSTREAMER);
+    // cv::VideoCapture capture("uvch264src initial-bitrate=1000000 average-bitrate=1000000 iframe-period=1000 device=/dev/video0 name=src auto-start=true src.vidsrc ! video/x-h264,width=640,height=360,framerate=15/1 ! h264parse ! rtph264pay ! udpsink host=192.168.2.1 port=5600", cv::CAP_GSTREAMER);
+    cv::VideoCapture capture("udpsrc address=192.168.2.1 port=5600 auto-multicast=0 ! application/x-rtp,media=video,encoding-name=H264 ! tpjitterbuffer latency=0 ! rtph264depay ! avdec_h264 ! videoconvert ! video/x-raw,format=BGR ! appsink drop=1", cv::CAP_GSTREAMER);
+    std::cout << "cv::VideoCapture capture constructed" << std::endl;
+
+
 	if (!capture.isOpened())
 	{
 		std::cout << "Read video Failed !" << std::endl;
