@@ -38,10 +38,10 @@ pkg_search_module(gstreamer-video REQUIRED IMPORTED_TARGET gstreamer-video-1.0>=
 # pkg_check_modules(GST_APP REQUIRED gstreamer-app-1.0)
 # pkg_check_modules(GST_VIDEO REQUIRED gstreamer-video-1.0)
 
-add_message_files(
- FILES
- obj.msg
-)
+# add_message_files(
+#  FILES
+#  obj.msg
+# )
 
 
 generate_messages(DEPENDENCIES std_msgs sensor_msgs)
@@ -60,9 +60,9 @@ include_directories(
 )
 
 add_executable(camera
-    src/camera.cpp
-    src/include/movement.cpp
-    src/include/run_yolo.cpp)
+    src/camera.cpp)
+    # src/include/movement.cpp
+    # src/include/run_yolo.cpp)
 target_link_libraries(camera
    ${OpenCV_LIBRARIES}
    ${catkin_LIBRARIES})

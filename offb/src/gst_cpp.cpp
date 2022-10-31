@@ -26,7 +26,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <cv_bridge/cv_bridge.h>
 #include <string>
-#include "offb/obj.h"
 
 
 // Share frame between main loop and gstreamer callback
