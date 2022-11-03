@@ -176,6 +176,7 @@ int main(int argc, char *argv[])
     gst_element_set_state(GST_ELEMENT(pipeline), GST_STATE_PLAYING);
 
     // Main loop
+    
     while(ros::ok()) {
         g_main_iteration(false);
 
@@ -186,11 +187,27 @@ int main(int argc, char *argv[])
              temp = atomicFrame.load()[0];
             // cv::imshow("Frame", atomicFrame.load()[0]);
             // cv::waitKey(30);
+            sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", temp).toImageMsg();
+            pub.publish(msg);
         }
 
-        sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", temp).toImageMsg();
-        pub.publish(msg);
+        
     }
+//     while(ros::ok()) {
+//         g_main_iteration(false);
+
+//         cv::Mat* frame = atomicFrame.load();
+//         cv::Mat temp;
+//         if(frame) 
+//         {
+//              temp = atomicFrame.load()[0];
+//             // cv::imshow("Frame", atomicFrame.load()[0]);
+//             // cv::waitKey(30);
+//         }
+
+//         sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", temp).toImageMsg();
+//         pub.publish(msg);
+//     }
 
     gst_element_set_state(GST_ELEMENT(pipeline), GST_STATE_NULL);
     gst_object_unref(GST_OBJECT(pipeline));
